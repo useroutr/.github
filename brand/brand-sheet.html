@@ -1,0 +1,439 @@
+<title>Useroutr Identity</title>
+
+<style>
+  :root {
+    --paper:   #FAFAF8;
+    --raise:   #FFFFFF;
+    --ink:     #14161A;
+    --muted:   #6E747C;
+    --line:    #E4E4DF;
+    --orange:  #F4671F;
+    --grid:    #EDEDE8;
+
+    --f-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --f-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    --measure: 64ch;
+    --pad: clamp(20px, 5vw, 72px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:  #101215;
+      --raise:  #171A1E;
+      --ink:    #ECECE8;
+      --muted:  #8B9199;
+      --line:   #24282D;
+      --orange: #FF7433;
+      --grid:   #1B1F23;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101215; --raise: #171A1E; --ink: #ECECE8;
+    --muted: #8B9199; --line: #24282D; --orange: #FF7433; --grid: #1B1F23;
+  }
+  :root[data-theme="light"] {
+    --paper: #FAFAF8; --raise: #FFFFFF; --ink: #14161A;
+    --muted: #6E747C; --line: #E4E4DF; --orange: #F4671F; --grid: #EDEDE8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: var(--pad); }
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin: 0;
+  }
+
+  h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.08; letter-spacing: -0.025em; font-weight: 600;
+    margin: 14px 0 0; text-wrap: balance;
+  }
+
+  h2 {
+    font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600; color: var(--muted);
+    margin: 0 0 22px; padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  }
+
+  h3 { font-size: 15px; font-weight: 600; letter-spacing: -0.005em; margin: 0 0 6px; }
+
+  p { margin: 0; max-width: var(--measure); }
+  .lede { font-size: 18px; color: var(--muted); margin-top: 16px; max-width: 54ch; }
+  .note-p { color: var(--muted); font-size: 14.5px; }
+
+  section { margin-top: clamp(48px, 8vw, 84px); }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .stack-lg { display: flex; flex-direction: column; gap: 26px; }
+
+  /* hero */
+  .stage {
+    margin-top: 44px;
+    background: var(--raise);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    padding: clamp(40px, 8vw, 92px);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: center;
+  }
+  .stage svg { width: clamp(140px, 26vw, 230px); height: auto; color: var(--ink); display: block; }
+
+  @keyframes dashIn { to { stroke-dashoffset: 0; } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(-7px) scale(.5); } to { opacity: 1; transform: none; } }
+  .anim .u-dot  { transform-origin: 20px 14px; animation: dropIn .4s cubic-bezier(.2,.9,.3,1) both; }
+  .anim .u-path { stroke-dasharray: 76; stroke-dashoffset: 76; animation: dashIn .85s cubic-bezier(.65,0,.35,1) .22s both; }
+  @media (prefers-reduced-motion: reduce) {
+    .anim .u-dot, .anim .u-path { animation: none; stroke-dashoffset: 0; opacity: 1; transform: none; }
+  }
+
+  /* grids */
+  .cols { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  /* two-cut comparison */
+  .compare { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+  .opt {
+    background: var(--raise); border: 1px solid var(--line); border-radius: 4px;
+    padding: 26px; display: flex; flex-direction: column; gap: 16px;
+  }
+  .opt-art {
+    display: grid; place-items: center; padding: 18px 0 4px;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 22px 22px; background-position: center;
+    border-radius: 3px;
+  }
+  .opt-art svg { color: var(--ink); display: block; }
+  .opt-row {
+    display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap;
+    padding-bottom: 16px; border-bottom: 1px solid var(--line);
+  }
+  .opt-row svg { color: var(--ink); display: block; }
+  .opt-dark { background: #101215; border-radius: 5px; padding: 7px; display: inline-flex; }
+  .opt h3 { margin: 0; }
+
+  .card {
+    background: var(--raise); border: 1px solid var(--line); border-radius: 4px;
+    padding: 22px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .card-art { display: grid; place-items: center; min-height: 116px; }
+  .card-art svg { color: var(--ink); display: block; }
+  .card-art.invert { background: var(--ink); border-radius: 3px; padding: 20px; }
+  .card-art.invert svg { color: var(--paper); }
+  .card-art.mono svg { color: var(--ink); }
+
+  .cap { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--muted); }
+  .cap strong { color: var(--ink); font-weight: 600; letter-spacing: 0; }
+
+  /* size ladder */
+  .ladder {
+    display: flex; align-items: flex-end; gap: clamp(22px, 5vw, 54px);
+    flex-wrap: wrap; padding: 32px 24px;
+    background: var(--raise); border: 1px solid var(--line); border-radius: 4px;
+  }
+  .rung { display: flex; flex-direction: column; align-items: center; gap: 11px; }
+  .rung svg { color: var(--ink); display: block; }
+
+  /* anatomy */
+  .anatomy { display: grid; gap: 34px; grid-template-columns: minmax(0,1fr); align-items: center; }
+  @media (min-width: 720px) { .anatomy { grid-template-columns: minmax(0, 320px) minmax(0,1fr); } }
+  .anatomy-art {
+    background: var(--raise); border: 1px solid var(--line); border-radius: 4px;
+    padding: 26px; display: grid; place-items: center;
+  }
+  .anatomy-art svg { width: 100%; max-width: 270px; height: auto; display: block; }
+
+  .notes { display: flex; flex-direction: column; gap: 20px; }
+  .note { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: start; }
+  .bullet { width: 11px; height: 11px; border-radius: 50%; background: var(--orange); margin-top: 7px; justify-self: center; }
+  .bullet.hollow { background: transparent; border: 2px solid var(--muted); }
+  .note p { color: var(--muted); font-size: 14.5px; }
+
+  /* lockup */
+  .lockup {
+    display: flex; align-items: center; gap: 18px; padding: 34px;
+    background: var(--raise); border: 1px solid var(--line); border-radius: 4px;
+  }
+  .lockup svg { height: 46px; width: auto; color: var(--ink); flex: none; }
+  .wordmark { font-size: 34px; font-weight: 600; letter-spacing: -0.032em; line-height: 1; }
+
+  /* swatches */
+  .swatches { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); }
+  .sw { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .sw-chip { height: 72px; }
+  .sw-meta { padding: 11px 13px; display: flex; flex-direction: column; gap: 2px; background: var(--raise); }
+  .sw-name { font-size: 13px; font-weight: 600; }
+  .sw-hex { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
+
+  pre {
+    margin: 0; padding: 20px; border-radius: 4px;
+    background: var(--raise); border: 1px solid var(--line);
+    overflow-x: auto; font-family: var(--f-mono); font-size: 12.5px;
+    line-height: 1.7; color: var(--ink); white-space: pre-wrap; word-break: break-word;
+  }
+  code { font-family: var(--f-mono); font-size: 12.5px; }
+
+  .rules { display: flex; flex-direction: column; }
+  .rule {
+    display: grid; grid-template-columns: 74px 1fr; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid var(--line); align-items: baseline;
+  }
+  .rule:last-child { border-bottom: none; }
+  .rule-k { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  .rule-k.yes { color: var(--orange); }
+  .rule-k.no  { color: var(--muted); }
+  .rule p { font-size: 14.5px; }
+
+  footer {
+    margin-top: clamp(56px, 9vw, 96px); padding-top: 26px;
+    border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px;
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Identity &middot; v2 &middot; August 2026</p>
+    <h1>Useroutr</h1>
+    <p class="lede">A lowercase <em>u</em> whose left arm arrives as detached orange dots and leaves as one unbroken stroke. What the user brings comes in pieces, in the signal colour; what the application receives is single and settled.</p>
+  </header>
+
+  <div class="stage">
+    <svg class="anim" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Useroutr mark">
+      <circle class="u-dot" cx="20" cy="14" r="4" fill="#F4671F"/>
+      <path class="u-path" d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14"
+            fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <section>
+    <h2>Two cuts, pick one</h2>
+    <div class="compare">
+      <div class="opt">
+        <div class="opt-art">
+          <svg viewBox="0 0 64 64" width="132" height="132"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="opt-row">
+          <svg viewBox="0 0 64 64" width="44" height="44"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 64 64" width="28" height="28"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 64 64" width="16" height="16"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+          <span class="opt-dark">
+            <svg viewBox="0 0 64 64" width="28" height="28"><circle cx="20" cy="14" r="4" fill="#FF7433"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="#FAFAF8" stroke-width="6" stroke-linecap="round"/></svg>
+          </span>
+        </div>
+        <h3>One dot</h3>
+        <p class="note-p">Dot radius 4, stub 8. The quieter of the two. Reads as a letterform first and a diagram second, and the single node holds its weight against the stroke.</p>
+      </div>
+
+      <div class="opt">
+        <div class="opt-art">
+          <svg viewBox="0 0 64 64" width="132" height="132"><circle cx="20" cy="14" r="3" fill="#F4671F"/><circle cx="20" cy="23" r="3" fill="#F4671F"/><path d="M20 32 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="opt-row">
+          <svg viewBox="0 0 64 64" width="44" height="44"><circle cx="20" cy="14" r="3" fill="#F4671F"/><circle cx="20" cy="23" r="3" fill="#F4671F"/><path d="M20 32 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 64 64" width="28" height="28"><circle cx="20" cy="14" r="3" fill="#F4671F"/><circle cx="20" cy="23" r="3" fill="#F4671F"/><path d="M20 32 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 64 64" width="16" height="16"><circle cx="20" cy="14" r="3" fill="#F4671F"/><circle cx="20" cy="23" r="3" fill="#F4671F"/><path d="M20 32 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+          <span class="opt-dark">
+            <svg viewBox="0 0 64 64" width="28" height="28"><circle cx="20" cy="14" r="3" fill="#FF7433"/><circle cx="20" cy="23" r="3" fill="#FF7433"/><path d="M20 32 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="#FAFAF8" stroke-width="6" stroke-linecap="round"/></svg>
+          </span>
+        </div>
+        <h3>Two dots</h3>
+        <p class="note-p">Dot radius 3, even 3-unit rhythm, stub 6. Says <em>many</em> rather than <em>one</em>, which is closer to the thesis. Costs a little at 16 pixels, where the two dots start to merge.</p>
+      </div>
+    </div>
+    <p class="note-p" style="margin-top:22px">Identical construction: same bowl, same output stroke, same orange. They differ only in how much of the left arm is spent on dots rather than stub. The sections below apply to whichever is chosen.</p>
+  </section>
+
+  <section>
+    <h2>How the mark is built</h2>
+    <div class="anatomy">
+      <div class="anatomy-art">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="var(--line)" stroke-width="0.6">
+            <line x1="20" y1="4" x2="20" y2="60"/>
+            <line x1="44" y1="4" x2="44" y2="60"/>
+            <line x1="4" y1="14" x2="60" y2="14"/>
+            <line x1="4" y1="38" x2="60" y2="38"/>
+          </g>
+          <circle cx="20" cy="14" r="4" fill="#F4671F"/>
+          <path d="M20 30 L20 38" fill="none" stroke="var(--muted)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M20 38 A12 12 0 0 0 44 38" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M44 38 L44 14" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <span class="bullet"></span>
+          <div>
+            <h3>The dot is the input</h3>
+            <p>Detached, and the only element in colour. Whatever the user holds, on whatever rail. Radius four against a stroke of six, so it reads as a node rather than a fragment of the letter.</p>
+          </div>
+        </div>
+        <div class="note">
+          <span class="bullet hollow"></span>
+          <div>
+            <h3>The stub anchors the arm</h3>
+            <p>Eight units, and structurally not optional. Without it the bowl becomes a hook and the whole mark reads as a <em>j</em>.</p>
+          </div>
+        </div>
+        <div class="note">
+          <span class="bullet hollow"></span>
+          <div>
+            <h3>One stroke leaves</h3>
+            <p>A true semicircle of radius twelve rising into an unbroken vertical. The settled output, credited once.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>One drawing, every size</h2>
+    <div class="ladder">
+      <div class="rung">
+        <svg viewBox="0 0 64 64" width="96" height="96"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        <span class="cap">96</span>
+      </div>
+      <div class="rung">
+        <svg viewBox="0 0 64 64" width="48" height="48"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        <span class="cap">48</span>
+      </div>
+      <div class="rung">
+        <svg viewBox="0 0 64 64" width="32" height="32"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        <span class="cap">32</span>
+      </div>
+      <div class="rung">
+        <svg viewBox="0 0 64 64" width="24" height="24"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        <span class="cap">24</span>
+      </div>
+      <div class="rung">
+        <svg viewBox="0 0 64 64" width="16" height="16"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        <span class="cap">16</span>
+      </div>
+    </div>
+    <p class="note-p" style="margin-top:20px">The dot survives to 16 pixels, so there is no separate small cut. One drawing carries the whole system.</p>
+  </section>
+
+  <section>
+    <h2>Application</h2>
+    <div class="cols">
+      <div class="card">
+        <div class="card-art">
+          <svg viewBox="0 0 64 64" width="72" height="72"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        </div>
+        <span class="cap"><strong>Primary</strong> on paper</span>
+      </div>
+      <div class="card">
+        <div class="card-art invert">
+          <svg viewBox="0 0 64 64" width="72" height="72"><circle cx="20" cy="14" r="4" fill="#FF7433"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        </div>
+        <span class="cap"><strong>Reversed</strong> on ink</span>
+      </div>
+      <div class="card">
+        <div class="card-art mono">
+          <svg viewBox="0 0 64 64" width="72" height="72"><circle cx="20" cy="14" r="4" fill="currentColor"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        </div>
+        <span class="cap"><strong>Mono</strong> one-colour print, engraving</span>
+      </div>
+      <div class="card">
+        <div class="card-art">
+          <svg viewBox="0 0 64 64" width="72" height="72" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="var(--ink)"/>
+            <g transform="translate(32,32) scale(0.86) translate(-32,-32)">
+              <circle cx="20" cy="14" r="4" fill="#F4671F"/>
+              <path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="var(--paper)" stroke-width="6" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <span class="cap"><strong>App icon</strong> 86% scale, 14px radius</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lockup</h2>
+    <div class="stack-lg">
+      <div class="lockup">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="20" cy="14" r="4" fill="#F4671F"/><path d="M20 30 L20 38 A12 12 0 0 0 44 38 L44 14" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+        <span class="wordmark">useroutr</span>
+      </div>
+      <p class="note-p">Set lowercase, to rhyme with the mark. The optical gap between mark and word equals the stroke weight. The mark is never used as the letter <em>u</em> inside the word: at text size the dot collapses onto the arm and the idea disappears.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Palette</h2>
+    <div class="swatches">
+      <div class="sw"><div class="sw-chip" style="background:#F4671F"></div><div class="sw-meta"><span class="sw-name">Signal orange</span><span class="sw-hex">#F4671F</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#FF7433"></div><div class="sw-meta"><span class="sw-name">Orange, dark ground</span><span class="sw-hex">#FF7433</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#14161A"></div><div class="sw-meta"><span class="sw-name">Ink</span><span class="sw-hex">#14161A</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#FAFAF8;border-bottom:1px solid var(--line)"></div><div class="sw-meta"><span class="sw-name">Paper</span><span class="sw-hex">#FAFAF8</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#6E747C"></div><div class="sw-meta"><span class="sw-name">Grey</span><span class="sw-hex">#6E747C</span></div></div>
+    </div>
+    <p class="note-p" style="margin-top:18px">The orange belongs to the dot. It lifts to <code>#FF7433</code> on dark ground so it holds the same optical weight rather than going muddy. Ink carries a slight blue bias and paper a slight warm one, so neither reads as default black or default white. Use orange for the dot and at most one control per screen; it is a signal, not a wash.</p>
+  </section>
+
+  <section>
+    <h2>Rules</h2>
+    <div class="rules">
+      <div class="rule"><span class="rule-k yes">Do</span><p>Keep clear space of one bowl radius, twelve grid units, on every side.</p></div>
+      <div class="rule"><span class="rule-k yes">Do</span><p>Lift the orange to <code>#FF7433</code> on dark grounds.</p></div>
+      <div class="rule"><span class="rule-k yes">Do</span><p>Use the mono cut wherever the orange cannot reproduce.</p></div>
+      <div class="rule"><span class="rule-k no">Don't</span><p>Remove the stub or lengthen it to a full arm. Eight units, exactly. Shorter and the mark becomes a <em>j</em>; longer and the dot stops reading as detached.</p></div>
+      <div class="rule"><span class="rule-k no">Don't</span><p>Colour the bowl or the output stroke. Only the dot is orange.</p></div>
+      <div class="rule"><span class="rule-k no">Don't</span><p>Rotate or mirror it. The direction is the meaning: input on the left, settled output on the right.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Generation prompt</h2>
+    <p class="note-p" style="margin-bottom:16px">For running against an image model. The mark was drawn as vector rather than generated, so treat this as a way to explore adjacent directions, not to reproduce it.</p>
+    <pre>Minimalist vector logo mark for "Useroutr", a payments infrastructure
+company. A single lowercase letter "u" built from one geometric stroke
+of uniform weight with rounded terminals. The left arm is reduced to a
+short stub with a separate circular dot floating above it in bright
+orange; the bowl sweeps right and rises into one unbroken vertical
+stroke in near-black. The idea: a detached input resolving into a
+single settled output. Two colours only, orange dot on near-black
+letterform, warm off-white background. Flat, no gradient, centred,
+generous margin, optically balanced. Swiss International Typographic
+Style, transit-signage precision, Vignelli. Vector, SVG-ready,
+legible at 16 pixels.
+
+Negative: gradient, shadow, bevel, 3D, glow, texture, photorealism,
+mascot, globe, arrow, coin, chain link, hexagon, shield, swoosh,
+serif, script, badge, emblem, ribbon, background scene, watermark,
+text, lettering beyond the single "u", letter j, hook shape.</pre>
+  </section>
+
+  <section>
+    <h2>Production notes</h2>
+    <div class="stack">
+      <p class="note-p">The letterform uses <code>currentColor</code> and the dot is a fixed hex, so the mark inherits the ground from CSS while the orange stays constant. No per-theme copies.</p>
+      <p class="note-p">The wordmark on this sheet is set in the system UI face as a placeholder. Before launch it should be set in a licensed geometric or neo-grotesque with a single-storey <em>a</em> and converted to outlines, so it never depends on a font being present. Faces worth trialling: S&ouml;hne, Diatype, Aeonik, Suisse Int'l.</p>
+      <p class="note-p">Files sit in <code>brand/</code>. One dot: <code>useroutr-mark.svg</code>, <code>useroutr-mark-mono.svg</code>, <code>useroutr-favicon.svg</code>. Two dots: <code>useroutr-mark-two-dot.svg</code>, <code>useroutr-mark-two-dot-mono.svg</code>, <code>useroutr-favicon-two-dot.svg</code>. Once a cut is chosen, the other set should be deleted rather than left around to drift into use.</p>
+    </div>
+  </section>
+
+  <footer>
+    Useroutr identity, second pass. Drawn on a 64-unit grid: stroke weight 6, dot radius 4, stub 8, bowl radius 12.
+  </footer>
+
+</div>
