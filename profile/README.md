@@ -68,3 +68,5 @@ Fiat corridors, persistent funding addresses, and payouts follow, on the same co
 ## Contact
 
 Partnership and integration enquiries: [hello@useroutr.com](mailto:hello@useroutr.com)
+
+Questions? Join us on [Discord](https://discord.gg/6xRKR9m5HH).
